@@ -1,0 +1,94 @@
+How to check running processes:
+ps
+ps aux | less
+ps -ef | less shows parent process id (PPID)
+ps -lax | less shows Nice value etc
+
+Managing jobs
+
+In case of of a running process in a loop like the following shell script:
+
+(while true; do echo "Hello" >> ~/hello.out; sleep 5; done)\> &
+
+To call the running jobs:
+Commands:
+
+jobs --> Gets the running jobs
+fg 1 "(1) The running job number. Brings the job 1 to the foreground. 
+ctrl + c kills th e job
+bg 1 
+ps j | grep "15652" This lists all running jobs and greps the process id "15625"
+
+Terminate running processes with kill and Pkill commands
+kill -l  --> lists all the kill commands
+kill -SIGTERM %(Job number) or kill -15 %1 or kill -SIGTERM 12232 (PID)
+kill -SIGSTOP %1 (1) job number
+kill -SIGCONT %1 --> used to start a job number
+kill -9 (PID)  or Kill -SIGKILL (PID) --> Terminates a process immediately 
+
+Installing apache web server
+yum install httpd
+yum status httpd
+yum enable httpd
+yum start httpd
+yum stop httpd
+
+pgrep httpd -l --> shows the running processes with apache webserver
+
+pkill httpd --> kills all apache "httpd"
+
+pgrep -u username -l --> lists all the processes ran by the user 'username'
+pgrep - username -l top --> kills the a specific process 'top' ran by the user - 'username'
+
+
+pgrep -v -u root -l --> lists all processes not run by the user 'root'. 
+
+w --> checks all logged in users in the system
+pkill -t 'tty name' or pkill -9 -9 'tty name' -- this kicks out the user with the associated ttyname'
+
+
+CHECKING PROCESSES
+
+uptime
+cat /proc/cpuinfo | grep "processor" | wc -l --> counts the number of processors in the system   
+yes > /dev/null & --> The ampersand causes the command to run in the background. The yes command causes a load on the memory bc it loops untill stopped by pressing 'ctrl + c'
+
+
+top -d -2 --> The top command quits after two minutes
+top -n -2 --> The Top commands shows two frames before quitting.
+
+
+ADJUSTING THE PROCESS PRIOROTY WITH RENICE.
+
+nice -10 yes > /dev/null --> sets a process priority for 'yes' command
+renice -n -5 (PID)--> changes the nice value or the process priority of a process.
+ 
+
+USING PROCSYS AND SYSCTL TO MODIFY OR SET KERNEL RUNTIME PARAMETERS
+
+This makes the configuration persistent.
+
+cd /proc/sys/kernels
+
+cat hostname
+ls -l --> checks permisions of files
+(When you find rw permisions on the owner, then you can modify the file)
+sysctl -a | grep kernel
+
+Check file persissions of a thread/file
+ls -l threads-max --> didplays a value, to modify the value...
+sysctl -w kernel threads-max=(type the new value you want to set)
+ or 
+echo "newValue" > /proc/sys/kernel/threads-max --> This does not make it persistent
+nano  /etc/sysctl.conf
+
+enter: kernel.threads-max = newValue --> save and reboot.
+
+PRODUCE AND DELIVER RESULT ON SYSTEM UTILIZATION.
+yum install sysstat -y
+nano /etc/sysconfig/sysstat --> His tory can be modified here.
+cd /var/log/sa
+ls
+sa25
+cat sa25 -->unreadable 
+sadf -d /var/log/sa/sa25 -- -u -r -dp -n DEV --> command that makes it readable.

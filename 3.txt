@@ -1,0 +1,27 @@
+SYNCHRONIZING FILES AND FOLDERS SECURELY BETWEEN SYSTEMS
+RSYSC copy changes only
+rsync -av /root/document /tmp/     
+
+-v is verbose. Lets us see what is going on
+-a is archive mode. It enables -r, which synchronizes recursively the whole directory
+                               -l,			symbolic links
+				-p			preserves files permissions
+				-t			preserves time stamps		
+				-D	synchronizez device files
+				-o      preserves owner permisions
+				-g        "       group    "
+
+        
+ rsync -av /root/Documents/ /tmp/Documents/    --> the "/" at he the end of documents means copy or sync the directory without recreating the directory. This was omited in the first command.  
+  
+SYNCHRONIZING BETWEEN TWO MACHINUSING SSH
+
+rsync -av root@192.168.1.2:/var/log /tmp This sync files from a remote machine to our temp directory. 
+
+It could be the other way round... 
+
+From our local machine to a remote machine
+
+rsync -av /var/log root@192.168.2.3:/tmp
+
+
